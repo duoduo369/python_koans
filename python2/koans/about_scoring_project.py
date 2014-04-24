@@ -33,9 +33,31 @@ from runner.koan import *
 #
 # Your goal is to write the score method.
 
+
+from collections import Counter
+
+
 def score(dice):
     # You need to write this method
-    pass
+    # 1 找到3个一样的 ，按照规则计数,如果这个数是1或者5 再加上
+    counter = Counter(dice)
+    scores = 0
+    for num,times in counter.iteritems():
+        if times >= 3:
+            if num == 1:
+                scores = scores + 1 * 1000 + (times - 3) * 100
+            elif num == 5:
+                scores = scores + 5 * 100 +  (times - 3) * 50
+            else:
+                scores += num * 100 
+        else:
+            if num == 1:
+                scores = scores + times * 100
+            elif num == 5:
+                scores = scores + times * 50
+
+
+    return scores
 
 
 class AboutScoringProject(Koan):

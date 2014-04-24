@@ -13,20 +13,59 @@
 # missing handler and any other supporting methods.  The specification
 # of the Proxy class is given in the AboutProxyObjectProject koan.
 
-# Note: This is a bit trickier than its Ruby Koans counterpart, but you
+# Note: This is a bit trickier that its Ruby Koans counterpart, but you
 # can do it!
 
 from runner.koan import *
+from collections import defaultdict
 
 
 class Proxy(object):
-    def __init__(self, target_object):
-        # WRITE CODE HERE
 
-        #initialize '_obj' attribute last. Trust me on this!
+    def __init__(self, target_object):
+        super(Proxy, self).__init__()
+
+        # TV所有公共方法
+        self._all_tv_property = [prop for prop in dir(target_object) if not
+                                 prop.startswith('_') and not
+                                 prop.startswith('__')]
+
+        self._message = []
+        self._was_called = defaultdict(bool)
+        self._number_of_times_called = defaultdict(int)
+
         self._obj = target_object
 
-    # WRITE CODE HERE
+    def __setattr__(self, attr, value):
+        if hasattr(self, '_obj'):
+            if attr in self._all_tv_property:
+                self._number_of_times_called[attr] += 1
+                self._message.append(attr)
+            object.__setattr__(self._obj, attr, value)
+        else:
+            object.__setattr__(self, attr, value)
+
+    def __getattr__(self, attr):
+        if attr in self._all_tv_property:
+            self._was_called[attr] = True
+            self._message.append(attr)
+            self._number_of_times_called[attr] += 1
+
+        if attr == 'messages':
+            return self.messages
+        if attr == 'number_of_times_called':
+            return self.number_of_times_called
+
+        return getattr(self._obj, attr)
+
+    def messages(self):
+        return self._message
+
+    def was_called(self, attr):
+        return self._was_called[attr]
+
+    def number_of_times_called(self, attr):
+        return self._number_of_times_called[attr]
 
 
 # The proxy object should pass the following Koan:

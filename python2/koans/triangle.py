@@ -18,9 +18,17 @@
 #   about_triangle_project_2.py
 #
 def triangle(a, b, c):
-    # DELETE 'PASS' AND WRITE THIS CODE
-    pass
+    if any(map(lambda x:x <= 0,(a,b,c))):
+        raise TriangleError
+    max_border = max(a,b,c)
+    if sum((a,b,c)) - max_border <= max_border:
+        raise TriangleError
 
+    if a == b == c:
+        return 'equilateral'
+    if len(set((a,b,c))) is 2:
+        return 'isosceles'
+    return 'scalene'
 
 # Error class used in part 2.  No need to change this code.
 class TriangleError(StandardError):

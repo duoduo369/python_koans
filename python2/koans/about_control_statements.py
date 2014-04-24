@@ -11,13 +11,13 @@ class AboutControlStatements(Koan):
             result = 'true value'
         else:
             result = 'false value'
-        self.assertEqual(__, result)
+        self.assertEqual('true value', result)
 
     def test_if_then_statements(self):
         result = 'default value'
         if True:
             result = 'true value'
-        self.assertEqual(__, result)
+        self.assertEqual('true value', result)
 
     def test_while_statement(self):
         i = 1
@@ -25,7 +25,8 @@ class AboutControlStatements(Koan):
         while i <= 10:
             result = result * i
             i += 1
-        self.assertEqual(__, result)
+        import math
+        self.assertEqual(math.factorial(10), result)
 
     def test_break_statement(self):
         i = 1
@@ -34,7 +35,8 @@ class AboutControlStatements(Koan):
             if i > 10: break
             result = result * i
             i += 1
-        self.assertEqual(__, result)
+        import math
+        self.assertEqual(math.factorial(10), result)
 
     def test_continue_statement(self):
         i = 0
@@ -43,14 +45,14 @@ class AboutControlStatements(Koan):
             i += 1
             if (i % 2) == 0: continue
             result.append(i)
-        self.assertEqual(__, result)
+        self.assertEqual(range(1,10,2), result)
 
     def test_for_statement(self):
         phrase = ["fish", "and", "chips"]
         result = []
         for item in phrase:
             result.append(item.upper())
-        self.assertEqual([__, __, __], result)
+        self.assertEqual( ["FISH", "AND", "CHIPS"] , result)
 
     def test_for_statement_with_tuples(self):
         round_table = [
@@ -61,10 +63,9 @@ class AboutControlStatements(Koan):
         ]
         result = []
         for knight, answer in round_table:
-            result.append("Contestant: '" + knight + \
-            "'   Answer: '" + answer + "'")
+            result.append("Contestant: '" + knight + "'   Answer: '" + answer + "'")
 
-        text = __
+        text = "Robin"
 
         self.assertMatch(text, result[2])
 
